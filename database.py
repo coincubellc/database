@@ -513,17 +513,17 @@ class Currency(Mixin, Base):
 
     symbol = Column(String(10))
     name = Column(String(50))
-    market_cap = Column(BigInteger())
+    market_cap = Column(BigInteger(), default=0)
     cmc_id = Column(String(50))
-    num_market_pairs = Column(Integer(10))
-    circulating_supply = Column(BigInteger())
-    total_supply = Column(BigInteger())
-    max_supply = Column(BigInteger())
-    price = Column(Numeric(24, 12))
-    volume_24h = Column(Numeric(24, 12))
-    percent_change_1h = Column(Numeric(24, 12))
-    percent_change_24h = Column(Numeric(24, 12))
-    percent_change_7d = Column(Numeric(24, 12))
+    num_market_pairs = Column(Integer(10), default=0)
+    circulating_supply = Column(BigInteger(), default=0)
+    total_supply = Column(BigInteger(), default=0)
+    max_supply = Column(BigInteger(), default=0)
+    price = Column(Numeric(24, 12), default=0)
+    volume_24h = Column(Numeric(24, 12), default=0)
+    percent_change_1h = Column(Numeric(24, 12), default=0)
+    percent_change_24h = Column(Numeric(24, 12), default=0)
+    percent_change_7d = Column(Numeric(24, 12), default=0)
 
     def __repr__(self):
         return '{s.symbol}[{s.id}]'.format(s=self)
@@ -619,7 +619,10 @@ class ExPair(Mixin, Base):
 
     def get_close(self):
         try:
-            return self.ex_pair_close[0].close
+            if self.base_symbol == 'BTC':
+                return 1 / self.ex_pair_close[0].close
+            else:
+                return self.ex_pair_close[0].close
         except:
             return 0
 
