@@ -210,8 +210,8 @@ class Connection(Mixin, Base):
     user_id = Column(FKInteger, ForeignKey('users.id'))
     cube_id = Column(FKInteger, ForeignKey('cubes.id'))
     exchange_id = Column(FKInteger, ForeignKey('exchanges.id'))
-    key = Column(String(400))
-    secret = Column(String(400))
+    key = Column(String(1000))
+    secret = Column(String(1000))
     passphrase = Column(Text)
     failed_at = Column(DateTime)
     liquidation_currency_id = Column(FKInteger, ForeignKey('currencies.id'),
